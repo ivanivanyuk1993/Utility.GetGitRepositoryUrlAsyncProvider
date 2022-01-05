@@ -1,27 +1,35 @@
 ﻿using System.CommandLine;
+using CliExitCodeProviderNS;
 using ExecuteCliCommandAsyncProviderNS;
+using ValueOrErrorNS;
 
 namespace GetGitRepositoryUrlAsyncProviderNS;
 
 public static class GetGitRepositoryUrlAsyncProvider
 {
-    public static async Task<string> GetGitRepositoryUrlAsync(
+    public static async Task<ValueOrError<string, Exception>> GetGitRepositoryUrlAsync(
         IConsole console,
         DirectoryInfo directoryInfo,
         CancellationToken cancellationToken
     )
     {
-        return
-        (
-            await ExecuteCliCommandAsyncProvider.ExecuteCliCommandAsync(
-                cliCommandText: $"git -C \"{directoryInfo.FullName}\" config --get remote.origin.url",
-                console: console,
-                cancellationToken: cancellationToken
+        var executeCliCommandResult = await ExecuteCliCommandAsyncProvider.ExecuteCliCommandAsync(
+            cliCommandText: $"git -C \"{directoryInfo.FullName}\" config --get remote.origin.url",
+            console: console,
+            cancellationToken: cancellationToken
+        );
+        return executeCliCommandResult.ExitCode.IsSuccessfulCliExitCode()
+            ? ValueOrError<string, Exception>.WithValue(
+                value: executeCliCommandResult.StandardOutputTextList.First()!
             )
-        ).StandardOutputText;
+            : ValueOrError<string, Exception>.WithError(
+                error: new Exception(
+                    message: executeCliCommandResult.StandardErrorOutputText
+                )
+            );
     }
 
-    public static Task<string> GetGitRepositoryUrlAsync(
+    public static Task<ValueOrError<string, Exception>> GetGitRepositoryUrlAsync(
         IConsole console,
         FileInfo fileInfo,
         CancellationToken cancellationToken

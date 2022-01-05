@@ -7,7 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\CliExitCodeProvider\CliExitCodeProviderNS\CliExitCodeProviderNS.csproj" />
       <ProjectReference Include="..\..\ExecuteCliCommandAsyncProvider\ExecuteCliCommandAsyncProviderNS\ExecuteCliCommandAsyncProviderNS.csproj" />
+      <ProjectReference Include="..\..\ValueOrError\ValueOrErrorNS\ValueOrErrorNS.csproj" />
     </ItemGroup>
 
 </Project>
