@@ -18,11 +18,11 @@ public class GetGitRepositoryUrlAsyncProviderTest
         var systemConsole = new SystemConsole();
 
         Assert.AreEqual(
-            actual: await GetGitRepositoryUrlAsyncProvider.GetGitRepositoryUrlAsync(
+            actual: (await GetGitRepositoryUrlAsyncProvider.GetGitRepositoryUrlAsync(
                 console: systemConsole,
                 directoryInfo: new DirectoryInfo(path: AppDomain.CurrentDomain.BaseDirectory),
                 cancellationToken: cancellationToken
-            ),
+            )).Value,
             expected: "git@github.com:ivanivanyuk1993/UtilDotnet.GetGitRepositoryUrlAsyncProvider.git"
         );
     }
