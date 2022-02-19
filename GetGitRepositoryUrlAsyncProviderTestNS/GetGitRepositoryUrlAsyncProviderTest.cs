@@ -23,7 +23,7 @@ public class GetGitRepositoryUrlAsyncProviderTest
                 directoryInfo: new DirectoryInfo(path: AppDomain.CurrentDomain.BaseDirectory),
                 cancellationToken: cancellationToken
             )).Value,
-            expected: "git@github.com:ivanivanyuk1993/UtilDotnet.GetGitRepositoryUrlAsyncProvider.git"
+            expected: "git@github.com:ivanivanyuk1993/Utility.GetGitRepositoryUrlAsyncProvider.git"
         );
     }
 }
