@@ -17,13 +17,21 @@ public class GetGitRepositoryUrlAsyncProviderTest
         var cancellationToken = CancellationToken.None;
         var systemConsole = new SystemConsole();
 
-        Assert.AreEqual(
-            actual: (await GetGitRepositoryUrlAsyncProvider.GetGitRepositoryUrlAsync(
-                console: systemConsole,
-                directoryInfo: new DirectoryInfo(path: AppDomain.CurrentDomain.BaseDirectory),
-                cancellationToken: cancellationToken
-            )).Value,
-            expected: "git@github.com:ivanivanyuk1993/Utility.GetGitRepositoryUrlAsyncProvider.git"
+        var commandResultOrError = await GetGitRepositoryUrlAsyncProvider.GetGitRepositoryUrlAsync(
+            console: systemConsole,
+            directoryInfo: new DirectoryInfo(path: AppDomain.CurrentDomain.BaseDirectory),
+            cancellationToken: cancellationToken
+        );
+
+        commandResultOrError.RunActionWithValueOrError(
+            runActionWithValueFunc: gitRepositoryUrl =>
+            {
+                Assert.AreEqual(
+                    actual: gitRepositoryUrl,
+                    expected: "git@github.com:ivanivanyuk1993/Utility.GetGitRepositoryUrlAsyncProvider.git"
+                );
+            },
+            runActionWithErrorFunc: exception => throw exception
         );
     }
 }

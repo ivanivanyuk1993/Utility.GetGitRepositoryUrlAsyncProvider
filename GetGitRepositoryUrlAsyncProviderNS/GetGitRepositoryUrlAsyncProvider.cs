@@ -19,10 +19,10 @@ public static class GetGitRepositoryUrlAsyncProvider
             cancellationToken: cancellationToken
         );
         return executeCliCommandResult.ExitCode.IsSuccessfulCliExitCode()
-            ? ValueOrError<string, Exception>.WithValue(
+            ? ValueOrError<string, Exception>.Value(
                 value: executeCliCommandResult.StandardOutputTextList.First()!
             )
-            : ValueOrError<string, Exception>.WithError(
+            : ValueOrError<string, Exception>.Error(
                 error: new Exception(
                     message: executeCliCommandResult.StandardErrorOutputText
                 )
